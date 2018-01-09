@@ -1,4 +1,10 @@
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.sql.*;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
@@ -14,6 +20,7 @@ public class AddArtist extends JFrame{
 	private JTextField secondNameTextField;
 	private JTextField birthplaceTextField;
 	private JTextField countryTextField;
+	
 	/**
 	 * Create the application.
 	 */
@@ -31,6 +38,7 @@ public class AddArtist extends JFrame{
 		countryTextField = new JTextField();
 		countryTextField.setColumns(10);
 		
+		
 		JLabel lblFirstName = new JLabel("first name:");
 		
 		JLabel lblSecondName = new JLabel("second name:");
@@ -40,6 +48,39 @@ public class AddArtist extends JFrame{
 		JLabel lblCountry = new JLabel("county:");
 		
 		JButton btnDo = new JButton("DO");
+		btnDo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Statement stmt = null;
+				String firstName;
+				String secondName;
+				String birthplace;
+				String country;
+				if (firstNameTextField.getText() != null) 
+					firstName = firstNameTextField.getText();
+				
+				
+				//STEP 4: Execute a query
+			      System.out.println("Creating statement...");
+			      try {
+					stmt = HomeFrame.conn.createStatement();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			      String sql;
+			      sql = "INSERT INTO Artists (first_name, second_name, birthplace, year_of_birth, country)"
+			      		+ " VALUES " + "(";
+			      try {
+					ResultSet rs = stmt.executeQuery(sql);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			  
+			}
+		});
+		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)

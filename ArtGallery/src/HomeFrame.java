@@ -6,9 +6,24 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.sql.*;
 import java.awt.event.ActionEvent;
 
 public class HomeFrame {
+	
+	// JDBC driver name and database URL
+	public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+	public static final String DB_URL = "jdbc:mysql://localhost/Art_Gallery";
+
+	//  Database credentials
+	public static final String ADMINUSER = "admin";
+	public static final String ADMINPASS = "1234";
+	public static final String EUSER = "employee";
+	public static final String EPASS = "1234";
+	public static final String EPLUSUSER = "employee+";
+	public static final String EPLUSPASS = "1234";
+	
+	public static Connection conn = null;
 
 	public JComboBox<String> comboBox;
 	public String[] user = new String[] {"Employee","Employee+","Admin"};
@@ -56,6 +71,33 @@ public class HomeFrame {
 		JButton btnNewButton = new JButton("LOG IN");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+			   try {
+				   //STEP 2: Register JDBC driver
+				  Class.forName("com.mysql.jdbc.Driver");
+				
+				  System.out.println("Connecting to the database...");
+				  
+			     //STEP 3: Open a connection
+				  if (comboBox.getSelectedIndex() == 0) {
+					  conn = DriverManager.getConnection(DB_URL, EUSER, EPASS);
+					  System.out.println("Connected as user: " + EUSER);
+				  }
+				  else if (comboBox.getSelectedIndex() == 1) {
+					  conn = DriverManager.getConnection(DB_URL, EPLUSUSER, EPASS);
+					  System.out.println("Connected as user: " + EPLUSUSER);
+				  }
+				  else if (comboBox.getSelectedIndex() == 2) {
+					  conn = DriverManager.getConnection(DB_URL, ADMINUSER, ADMINPASS);
+					  System.out.println("Connected as user: " + ADMINUSER);
+				  }
+			     
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				catch (ClassNotFoundException e1) {
+					e1.printStackTrace();
+				}
 				MainFrame game = new MainFrame();
 	            game.setVisible(true);
 	            game.setLocation(100,100);
