@@ -19,13 +19,19 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
 public class MainFrame extends JFrame {
 
 	private JPanel panel;
-
+	Statement stmt = null;
+	JTextArea inputTextArea;
+	public static JTextArea outputTextArea;
 
 
 	
@@ -43,6 +49,44 @@ public class MainFrame extends JFrame {
 		panel.setLayout(null);
 		
 		JButton doSelectButton = new JButton("DO");
+		doSelectButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				 System.out.println("Creating statement...");
+			      try {
+					stmt = HomeFrame.conn.createStatement();
+					ResultSet rs;
+					ResultSetMetaData rsmd;
+					
+					String data = " ";
+					if (inputTextArea.getText() != null) 
+						data = inputTextArea.getText();
+				
+			      String sql = "SELECT ";
+			      StringBuilder b = new StringBuilder(sql);
+			      b.append(data);
+			      sql = b.toString();
+			      rs = stmt.executeQuery(sql);
+			      rsmd = rs.getMetaData();
+			      int columnsNumber = rsmd.getColumnCount();
+			      MainFrame.outputTextArea.setText("");
+			      //STEP 5: Extract data from result set
+			      while(rs.next()){
+			    	  for(int i = 1 ; i <= columnsNumber; i++){
+
+			    	      outputTextArea.append(rs.getString(i) + " "); //Print one element of a row
+
+			    	}
+
+			    	  outputTextArea.append(System.getProperty("line.separator"));//Move to the next line to print the next row.           
+
+			      }
+			      rs.close();
+			      } catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}
+		});
 		doSelectButton.setBounds(840, 28, 127, 57);
 		panel.add(doSelectButton);
 		
@@ -50,11 +94,11 @@ public class MainFrame extends JFrame {
 		selectLabel.setBounds(35, 43, 90, 27);
 		panel.add(selectLabel);
 		
-		JTextArea inputTextArea = new JTextArea();
+		inputTextArea = new JTextArea();
 		inputTextArea.setBounds(134, 28, 662, 57);
 		panel.add(inputTextArea);
 		
-		JTextArea outputTextArea = new JTextArea();
+		outputTextArea = new JTextArea();
 		outputTextArea.setBounds(45, 101, 751, 117);
 		panel.add(outputTextArea);
 		

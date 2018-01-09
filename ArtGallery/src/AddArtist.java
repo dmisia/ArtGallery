@@ -39,6 +39,9 @@ public class AddArtist extends JFrame{
 		countryTextField = new JTextField();
 		countryTextField.setColumns(10);
 		
+		yearOfBirthTextField = new JTextField();
+		yearOfBirthTextField.setColumns(10);
+		
 		
 		JLabel lblFirstName = new JLabel("first name:");
 		
@@ -46,24 +49,31 @@ public class AddArtist extends JFrame{
 		
 		JLabel lblBirthplace = new JLabel("birthplace:");
 		
+		JLabel lblYearOfBirth = new JLabel("year of birth:");
+		
 		JLabel lblCountry = new JLabel("county:");
 		
 		JButton btnDo = new JButton("DO");
-		
-		yearOfBirthTextField = new JTextField();
-		yearOfBirthTextField.setColumns(10);
-		
-		JLabel lblYearOfBirth = new JLabel("year of birth:");
 
 		btnDo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Statement stmt = null;
-				String firstName;
-				String secondName;
-				String birthplace;
-				String country;
+				String firstName = " ";
+				String secondName = " ";
+				String birthplace = " ";
+				String yearOfBirth = " ";
+				String country = " ";
 				if (firstNameTextField.getText() != null) 
 					firstName = firstNameTextField.getText();
+				if (secondNameTextField.getText() != null) 
+					secondName = secondNameTextField.getText();
+				if (birthplaceTextField.getText() != null) 
+					birthplace = birthplaceTextField.getText();
+				if (countryTextField.getText() != null) 
+					country = countryTextField.getText();
+				if (yearOfBirthTextField.getText() != null) 
+					yearOfBirth = yearOfBirthTextField.getText();
+				
 				
 				
 				//STEP 4: Execute a query
@@ -77,11 +87,21 @@ public class AddArtist extends JFrame{
 			      String sql;
 			      sql = "INSERT INTO Artists (first_name, second_name, birthplace, year_of_birth, country)"
 			      		+ " VALUES " + "(";
+			      StringBuilder b = new StringBuilder(sql);
+			      b.append("'"); b.append(firstName); b.append("'"); b.append(",");
+			      b.append("'"); b.append(secondName); b.append("'"); b.append(",");
+			      b.append("'"); b.append(birthplace); b.append("'"); b.append(",");
+			      b.append(yearOfBirth); b.append(",");
+			      b.append("'"); b.append(country); b.append("'"); b.append(")");
+			      sql = b.toString();
+			      System.out.println(sql);
 			      try {
-					ResultSet rs = stmt.executeQuery(sql);
+					stmt.executeUpdate(sql);
+					MainFrame.outputTextArea.setText("SUCCESS");
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//e.printStackTrace();
+					MainFrame.outputTextArea.setText("ERROR");
 				}
 
 			  
