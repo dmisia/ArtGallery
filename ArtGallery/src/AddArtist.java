@@ -20,6 +20,7 @@ public class AddArtist extends JFrame{
 	private JTextField secondNameTextField;
 	private JTextField birthplaceTextField;
 	private JTextField countryTextField;
+	private JTextField yearOfBirthTextField;
 	
 	/**
 	 * Create the application.
@@ -48,6 +49,12 @@ public class AddArtist extends JFrame{
 		JLabel lblCountry = new JLabel("county:");
 		
 		JButton btnDo = new JButton("DO");
+		
+		yearOfBirthTextField = new JTextField();
+		yearOfBirthTextField.setColumns(10);
+		
+		JLabel lblYearOfBirth = new JLabel("year of birth:");
+
 		btnDo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Statement stmt = null;
@@ -85,49 +92,56 @@ public class AddArtist extends JFrame{
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(55)
+					.addContainerGap(61, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblFirstName)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(firstNameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblSecondName)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(secondNameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblBirthplace)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(birthplaceTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblCountry)
-							.addGap(18)
-							.addComponent(countryTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(btnDo, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
-							.addGap(73)))
-					.addContainerGap())
+							.addGap(73))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblCountry)
+								.addComponent(lblYearOfBirth)
+								.addComponent(lblBirthplace))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(birthplaceTextField)
+								.addComponent(countryTextField)
+								.addComponent(yearOfBirthTextField)))
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+							.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+								.addComponent(lblFirstName, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(firstNameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+								.addComponent(lblSecondName, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(secondNameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addGap(129))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblFirstName)
-						.addComponent(firstNameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(27)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(firstNameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblFirstName))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(secondNameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblSecondName))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(birthplaceTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblBirthplace))
+						.addComponent(lblBirthplace)
+						.addComponent(birthplaceTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(countryTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCountry))
-					.addPreferredGap(ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblYearOfBirth)
+						.addComponent(yearOfBirthTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblCountry)
+						.addComponent(countryTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
 					.addComponent(btnDo)
 					.addContainerGap())
 		);
@@ -143,5 +157,4 @@ public class AddArtist extends JFrame{
 		setVisible(true);
 		setResizable(false);
 	}
-
 }
