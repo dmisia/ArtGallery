@@ -1,4 +1,8 @@
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
@@ -34,6 +38,49 @@ public class AddBuyer extends JFrame{
 		JLabel lblCountry = new JLabel("county:");
 		
 		JButton btnDo = new JButton("DO");
+		btnDo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Statement stmt = null;
+				String firstName = " ";
+				String secondName = " ";
+				String country = " ";
+				if (firstNameTextField.getText() != null) 
+					firstName = firstNameTextField.getText();
+				if (secondNameTextField.getText() != null) 
+					secondName = secondNameTextField.getText();
+				if (countryTextField.getText() != null) 
+					country = countryTextField.getText();
+				
+				//STEP 4: Execute a query
+			      System.out.println("Creating statement...");
+			      try {
+					stmt = HomeFrame.conn.createStatement();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			      String sql;
+			      sql = "INSERT INTO Buyers (first_name, second_name, country)"
+			      		+ " VALUES " + "(";
+			      StringBuilder b = new StringBuilder(sql);
+			      b.append("'"); b.append(firstName); b.append("'"); b.append(",");
+			      b.append("'"); b.append(secondName); b.append("'"); b.append(",");
+			      b.append("'"); b.append(country); b.append("'"); b.append(")");
+			      sql = b.toString();
+			      System.out.println(sql);
+			      try {
+					stmt.executeUpdate(sql);
+					MainFrame.outputTextArea.setText("SUCCESS");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					MainFrame.outputTextArea.setText("ERROR");
+				}
+
+			  
+			}
+		});
+		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)

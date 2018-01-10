@@ -1,4 +1,8 @@
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
@@ -11,7 +15,7 @@ import javax.swing.JButton;
 public class AddRoom extends JFrame{
 
 	private JTextField designationTextField;
-	private JTextField secondNameTextField;
+	private JTextField capacityTextField;
 	/**
 	 * Create the application.
 	 */
@@ -20,14 +24,52 @@ public class AddRoom extends JFrame{
 		designationTextField = new JTextField();
 		designationTextField.setColumns(10);
 		
-		secondNameTextField = new JTextField();
-		secondNameTextField.setColumns(10);
+		capacityTextField = new JTextField();
+		capacityTextField.setColumns(10);
 		
 		JLabel lblFirstName = new JLabel("designation:");
 		
 		JLabel lblCapacity = new JLabel("capacity:");
 		
 		JButton btnDo = new JButton("DO");
+		btnDo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Statement stmt = null;
+				String designation = " ";
+				String capacity = " ";
+				if (designationTextField.getText() != null) 
+					designation = designationTextField.getText();
+				if (capacityTextField.getText() != null) 
+					capacity = capacityTextField.getText();
+				
+				//STEP 4: Execute a query
+			      System.out.println("Creating statement...");
+			      try {
+					stmt = HomeFrame.conn.createStatement();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			      String sql;
+			      sql = "INSERT INTO Rooms (designation, capacity)"
+			      		+ " VALUES " + "(";
+			      StringBuilder b = new StringBuilder(sql);
+			      b.append("'"); b.append(designation); b.append("'"); b.append(",");
+			      b.append(capacity); b.append(")");
+			      sql = b.toString();
+			      System.out.println(sql);
+			      try {
+					stmt.executeUpdate(sql);
+					MainFrame.outputTextArea.setText("SUCCESS");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					MainFrame.outputTextArea.setText("ERROR");
+				}
+
+			  
+			}
+		});
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -41,7 +83,7 @@ public class AddRoom extends JFrame{
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblCapacity)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(secondNameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(capacityTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(btnDo, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
 							.addGap(73)))
@@ -56,7 +98,7 @@ public class AddRoom extends JFrame{
 						.addComponent(designationTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(secondNameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(capacityTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblCapacity))
 					.addPreferredGap(ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
 					.addComponent(btnDo)

@@ -1,4 +1,8 @@
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
@@ -14,7 +18,7 @@ public class AddPainting extends JFrame{
 	private JTextField artistTextField;
 	private JTextField artstyleTextField;
 	private JTextField creationTextField;
-	private JTextField ecquisitonTextField;
+	private JTextField acquisitionTextField;
 	private JTextField roomTextField;
 	/**
 	 * Create the application.
@@ -33,8 +37,8 @@ public class AddPainting extends JFrame{
 		creationTextField = new JTextField();
 		creationTextField.setColumns(10);
 		
-		ecquisitonTextField = new JTextField();
-		ecquisitonTextField.setColumns(10);
+		acquisitionTextField = new JTextField();
+		acquisitionTextField.setColumns(10);
 		
 		roomTextField = new JTextField();
 		roomTextField.setColumns(10);
@@ -52,6 +56,62 @@ public class AddPainting extends JFrame{
 		JLabel lblRoom = new JLabel("room:");
 		
 		JButton btnDo = new JButton("DO");
+		btnDo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Statement stmt = null;
+				String title = " ";
+				String artist = " ";
+				String artstyle = " ";
+				String yearOfCreation = " ";
+				String yearOf = " ";
+				String room = " ";
+				if (titleTextField.getText() != null) 
+					title = titleTextField.getText();
+				if (artistTextField.getText() != null) 
+					artist = artistTextField.getText();
+				if (artstyleTextField.getText() != null) 
+					artstyle = artstyleTextField.getText();
+				if (creationTextField.getText() != null) 
+					yearOfCreation = creationTextField.getText();
+				if (acquisitionTextField.getText() != null) 
+					yearOf = acquisitionTextField.getText();
+				if (roomTextField.getText() != null) 
+					room = roomTextField.getText();
+				
+				
+				//STEP 4: Execute a query
+			      System.out.println("Creating statement...");
+			      try {
+					stmt = HomeFrame.conn.createStatement();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			      String sql;
+			      sql = "INSERT INTO Gallery_Paintings (title, artist, artstyle, year_of_creation, year_of_acquisition, room)"
+			      		+ " VALUES " + "(";
+			      StringBuilder b = new StringBuilder(sql);
+			      b.append("'"); b.append(title); b.append("'"); b.append(",");
+			      b.append(artist); b.append(",");
+			      b.append("'"); b.append(artstyle); b.append("'"); b.append(",");
+			      b.append(yearOfCreation); b.append(",");
+			      b.append(yearOf); b.append(",");
+			      b.append(room); b.append(")");
+			      sql = b.toString();
+			      System.out.println(sql);
+			      try {
+					stmt.executeUpdate(sql);
+					MainFrame.outputTextArea.setText("SUCCESS");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					MainFrame.outputTextArea.setText("ERROR");
+				}
+
+			  
+			}
+		});
+		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -77,7 +137,7 @@ public class AddPainting extends JFrame{
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblYearOf)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(ecquisitonTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(acquisitionTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 							.addComponent(btnDo, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
 							.addGroup(groupLayout.createSequentialGroup()
@@ -108,7 +168,7 @@ public class AddPainting extends JFrame{
 						.addComponent(lblYearOfCreation))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(ecquisitonTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(acquisitionTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblYearOf))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
