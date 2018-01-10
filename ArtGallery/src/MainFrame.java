@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -213,10 +214,30 @@ public class MainFrame extends JFrame {
 		panel.add(btnChangeDesignation);
 		
 		JButton btnBackUp = new JButton("BACK UP");
+		btnBackUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 try {
+					Process process = Runtime.getRuntime().exec("mysqldump -u root -p1234 Art_Gallery > ag.sql");
+					System.out.println("Backup");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnBackUp.setBounds(506, 547, 213, 49);
 		panel.add(btnBackUp);
 		
 		JButton btnRestore = new JButton("RESTORE");
+		btnRestore.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 try {
+					Process process = Runtime.getRuntime().exec("mysql -u root -p1234 Art_Gallery < ag.sql");
+					System.out.println("Restore");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnRestore.setBounds(764, 547, 213, 49);
 		panel.add(btnRestore);
 
