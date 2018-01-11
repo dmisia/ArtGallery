@@ -1,4 +1,8 @@
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
@@ -23,6 +27,45 @@ public class MovePainting extends JFrame{
 		JLabel lblTitle = new JLabel("title:");
 		
 		JButton btnDo = new JButton("DO");
+		btnDo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Statement stmt = null;
+				String title = " ";
+				String roomID = " ";
+				if (titleTextField.getText() != null) 
+					title = titleTextField.getText();
+				if (destinationTextField.getText() != null) 
+					roomID = destinationTextField.getText();
+				
+				//STEP 4: Execute a query
+			      System.out.println("Creating statement...");
+			      try {
+					stmt = HomeFrame.conn.createStatement();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			      String sql;
+			      sql = "UPDATE Gallery_Paintings "
+			      		+ "SET room = ";
+			      StringBuilder b = new StringBuilder(sql);
+			      b.append(roomID);
+			      b.append(" WHERE title = ");
+			      b.append("'"); b.append(title); b.append("'");
+			      sql = b.toString();
+			      System.out.println(sql);
+			      try {
+					stmt.executeUpdate(sql);
+					MainFrame.outputTextArea.setText("SUCCESS");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					MainFrame.outputTextArea.setText("ERROR");
+				}
+
+			  
+			}
+		});
 		
 		destinationTextField = new JTextField();
 		destinationTextField.setColumns(10);

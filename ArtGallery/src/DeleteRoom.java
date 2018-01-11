@@ -1,4 +1,8 @@
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
@@ -22,6 +26,41 @@ public class DeleteRoom extends JFrame{
 		JLabel lblRoomsID = new JLabel("room ID:");
 		
 		JButton btnDo = new JButton("DO");
+		btnDo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Statement stmt = null;
+				String roomID = " ";
+				if (roomsIDTextField.getText() != null) 
+					roomID = roomsIDTextField.getText();
+				
+				//STEP 4: Execute a query
+			      System.out.println("Creating statement...");
+			      try {
+					stmt = HomeFrame.conn.createStatement();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			      String sql;
+			      sql = "DELETE FROM Rooms "
+			      		+ "WHERE ID = ";
+			      StringBuilder b = new StringBuilder(sql);
+			      b.append(roomID);
+			      sql = b.toString();
+			      System.out.println(sql);
+			      try {
+					stmt.executeUpdate(sql);
+					MainFrame.outputTextArea.setText("SUCCESS");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					MainFrame.outputTextArea.setText("ERROR");
+				}
+
+			  
+			}
+		});
+		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)

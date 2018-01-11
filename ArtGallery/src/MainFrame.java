@@ -83,8 +83,7 @@ public class MainFrame extends JFrame {
 			      }
 			      rs.close();
 			      } catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						outputTextArea.setText("ERROR");
 					}
 			}
 		});
@@ -158,15 +157,6 @@ public class MainFrame extends JFrame {
 		});
 		btnAddPaintings.setBounds(87, 322, 115, 29);
 		panel.add(btnAddPaintings);
-		
-		JButton btnDeletePaintings = new JButton("DELETE");
-		btnDeletePaintings.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DeletePainting delete = new DeletePainting();
-			}
-		});
-		btnDeletePaintings.setBounds(87, 358, 115, 29);
-		panel.add(btnDeletePaintings);
 		
 		JButton btnDeleteArtists = new JButton("DELETE");
 		btnDeleteArtists.addActionListener(new ActionListener() {

@@ -1,4 +1,9 @@
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
@@ -24,6 +29,109 @@ public class MarkPaintingAsSold extends JFrame{
 		JLabel lblTitle = new JLabel("title:");
 		
 		JButton btnDo = new JButton("DO");
+		btnDo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Statement stmt = null;
+				String title = " ";
+				String buyerID = " ";
+				String date = " ";
+				
+				if (titleTextField.getText() != null) 
+					title = titleTextField.getText();
+				if (buyerIDTextField.getText() != null) 
+					buyerID = buyerIDTextField.getText();
+				if (dateTextField.getText() != null) 
+					date = dateTextField.getText();
+				
+				
+				//STEP 4: Execute a query
+			      System.out.println("Creating statement...");
+			      try {
+					stmt = HomeFrame.conn.createStatement();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			      String artist = " ";
+			      String artstyle = " ";
+			      String yearOfCreation = " ";
+			      String yearOfAcquisition = " ";
+			      String sql;
+			      ResultSet rs;
+			      sql = "SELECT artist FROM Gallery_Paintings WHERE title = " + "'" + title + "'"; 
+			      try {
+					rs = stmt.executeQuery(sql);
+					while(rs.next()){
+				        artist = rs.getString("artist");
+				      }
+				      rs.close();
+				} catch (SQLException e1) {
+					System.out.println("Exception in artist");
+				}
+			     
+			      sql = "SELECT artstyle FROM Gallery_Paintings WHERE title = " + "'" + title + "'";
+			      try {
+					rs = stmt.executeQuery(sql);
+					while(rs.next()){
+				        artstyle = rs.getString("artstyle");
+				      }
+				      rs.close();
+				} catch (SQLException e2) {
+					System.out.println("Exception in artstyle");
+				}
+			      
+			      sql = "SELECT year_of_creation FROM Gallery_Paintings WHERE title = " + "'" + title + "'";
+			      try {
+					rs = stmt.executeQuery(sql);
+					while(rs.next()){
+				        yearOfCreation = rs.getString("year_of_creation");
+				      }
+				      rs.close();
+				} catch (SQLException e3) {
+					System.out.println("Exception in YoC");
+				}
+			      
+			      
+			      sql = "SELECT year_of_acquisition FROM Gallery_Paintings WHERE title = " + "'" + title + "'"; 
+			      try {
+					rs = stmt.executeQuery(sql);
+					while(rs.next()){
+				        yearOfAcquisition = rs.getString("year_of_acquisition");
+				      }
+				      rs.close();
+				} catch (SQLException e4) {
+					System.out.println("Exception in YoA");
+				}
+			      
+			      
+			      
+			      
+			      sql = "INSERT INTO Sold_Paintings (title, artist, artstyle,"
+			      		+ " year_of_creation, year_of_acquisition, buyer, selling_date)"
+			      		+ " VALUES " + "(";
+			      StringBuilder b = new StringBuilder(sql);
+			      b.append("'"); b.append(title); b.append("'"); b.append(",");
+			      b.append(artist); b.append(",");
+			      b.append("'"); b.append(artstyle); b.append("'"); b.append(",");
+			      b.append(yearOfCreation); b.append(",");
+			      b.append(yearOfAcquisition); b.append(",");
+			      b.append(buyerID); b.append(",");
+			      b.append("'"); b.append(date); b.append("'"); b.append(")");
+			      sql = b.toString();
+			      System.out.println(sql);
+			      try {
+					stmt.executeUpdate(sql);
+					MainFrame.outputTextArea.setText("SUCCESS");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					MainFrame.outputTextArea.setText("ERROR");
+				}
+
+			  
+			}
+		});
+		
 		
 		buyerIDTextField = new JTextField();
 		buyerIDTextField.setColumns(10);

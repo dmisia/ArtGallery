@@ -1,4 +1,8 @@
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
@@ -23,6 +27,45 @@ public class ChangeRoomDesignation extends JFrame{
 		JLabel lblroomID = new JLabel("room ID:");
 		
 		JButton btnDo = new JButton("DO");
+		btnDo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Statement stmt = null;
+				String roomID = " ";
+				String designation = " ";
+				if (roomIDTextField.getText() != null) 
+					roomID = roomIDTextField.getText();
+				if (designationTextField.getText() != null) 
+					designation = designationTextField.getText();
+				
+				//STEP 4: Execute a query
+			      System.out.println("Creating statement...");
+			      try {
+					stmt = HomeFrame.conn.createStatement();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			      String sql;
+			      sql = "UPDATE Rooms "
+			      		+ "SET designation = ";
+			      StringBuilder b = new StringBuilder(sql);
+			      b.append("'"); b.append(designation); b.append("'");
+			      b.append(" WHERE ID = ");
+			      b.append(roomID);
+			      sql = b.toString();
+			      System.out.println(sql);
+			      try {
+					stmt.executeUpdate(sql);
+					MainFrame.outputTextArea.setText("SUCCESS");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					MainFrame.outputTextArea.setText("ERROR");
+				}
+
+			  
+			}
+		});
 		
 		designationTextField = new JTextField();
 		designationTextField.setColumns(10);
