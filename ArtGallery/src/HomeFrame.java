@@ -2,12 +2,14 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JComboBox;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class HomeFrame {
 	
@@ -64,11 +66,13 @@ public class HomeFrame {
 		frame.getContentPane().setLayout(null);
 		
 		comboBox = new JComboBox(user);
+		comboBox.setBackground(new Color(255, 250, 205));
 		comboBox.setFont(new Font("Tahoma", Font.BOLD, 20));
 		comboBox.setBounds(47, 114, 236, 70);
 		frame.getContentPane().add(comboBox);
 		
 		JButton btnNewButton = new JButton("LOG IN");
+		btnNewButton.setBackground(new Color(255, 250, 205));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -111,5 +115,11 @@ public class HomeFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 29));
 		lblNewLabel.setBounds(0, 0, 631, 78);
 		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel lblBackground = new JLabel("");
+		lblBackground .setIcon(new ImageIcon("src/background.jpg"));
+		lblBackground .setBounds(0, -5, 1054, 617);
+		frame.getContentPane().add(lblBackground );
+	
 	}
 }

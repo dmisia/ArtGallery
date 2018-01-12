@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,6 +7,7 @@ import java.sql.Statement;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -56,6 +58,7 @@ public class AddPainting extends JFrame{
 		JLabel lblRoom = new JLabel("room:");
 		
 		JButton btnDo = new JButton("DO");
+		btnDo.setBackground(new Color(255, 250, 205));
 		btnDo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Statement stmt = null;
@@ -178,6 +181,10 @@ public class AddPainting extends JFrame{
 					.addComponent(btnDo)
 					.addContainerGap())
 		);
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon("src/background.jpg"));
+		lblNewLabel.setBounds(0, -5, 1054, 617);
+		getContentPane().add(lblNewLabel);
 		getContentPane().setLayout(groupLayout);
 		initialize();
 	}
